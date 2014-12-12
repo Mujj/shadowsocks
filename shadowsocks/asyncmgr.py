@@ -37,14 +37,7 @@ class ServerMgr(object):
 
     def __init__(self):
         self._loop = None
-        self._request_id = 1
-        self._hosts = {}
-        self._hostname_status = {}
-        self._hostname_to_cb = {}
-        self._cb_to_hostname = {}
-        self._last_time = time.time()
         self._sock = None
-        self._servers = None
 
     def add_to_loop(self, loop):
         if self._loop:
@@ -68,7 +61,7 @@ class ServerMgr(object):
             if args[3] == '0':
                 server_pool.ServerPool.get_instance().cb_del_server(args[1])
             elif args[3] == '1':
-                server_pool.ServerPool.get_instance().new_server(args[1], args[2])
+                server_pool.ServerPool.get_instance().cb_new_server(args[1], args[2])
 
     def handle_events(self, events):
         for sock, fd, event in events:

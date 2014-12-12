@@ -467,23 +467,24 @@ class TCPRelayHandler(object):
             logging.debug('already destroyed')
             return
         self._stage = STAGE_DESTROYED
-        if self._remote_address:
-            logging.debug('destroy: %s:%d' %
-                          self._remote_address)
-        else:
-            logging.debug('destroy')
         if self._remote_sock:
-            logging.debug('destroying remote')
-            self._loop.remove(self._remote_sock)
-            del self._fd_to_handlers[self._remote_sock.fileno()]
-            self._remote_sock.close()
-            self._remote_sock = None
+            try:
+                logging.debug('destroying remote')
+                self._loop.remove(self._remote_sock)
+                del self._fd_to_handlers[self._remote_sock.fileno()]
+                self._remote_sock.close()
+                self._remote_sock = None
+            except:
+                pass
         if self._local_sock:
-            logging.debug('destroying local')
-            self._loop.remove(self._local_sock)
-            del self._fd_to_handlers[self._local_sock.fileno()]
-            self._local_sock.close()
-            self._local_sock = None
+            try:
+                logging.debug('destroying local')
+                self._loop.remove(self._local_sock)
+                del self._fd_to_handlers[self._local_sock.fileno()]
+                self._local_sock.close()
+                self._local_sock = None
+            except:
+                pass
         self._dns_resolver.remove_callback(self._handle_dns_resolved)
         self._server.remove_handler(self)
 
@@ -548,7 +549,7 @@ class TCPRelay(object):
         self._eventloop.remove_handler(self._handle_events)
 
     def destroy(self):
-        #destroy all conn and server conn at this tcprelay
+        #destroy all conn
         self.remove_to_loop()
         for fd in self._fd_to_handlers.keys():
             try:
