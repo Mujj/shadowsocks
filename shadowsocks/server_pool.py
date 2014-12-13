@@ -73,7 +73,7 @@ class ServerPool(object):
     def server_is_run(self, port):
         port = int(port)
         if port in self.tcp_servers_pool:
-            ret = True
+            return True
         return False
 
     def new_server(self, port, password):
