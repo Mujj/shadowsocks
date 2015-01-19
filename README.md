@@ -8,6 +8,10 @@ Which people need this branch
 
 3.manage server (transfer / account)
 
+Change
+-------
+从efd106dfb5这个提交开始能够独立于前端运行了，原因在于考虑到udp的话可靠性不好。在数据库中修改passwd，switch，enable，流量都会立即生效(比如改密码不需要再通过Managesocket去手动stop某个服务了)。不过内部实现还是通过数据库线程发送一个udp包来触发的，因为数据库这个操作改成异步的会灰常灰常麻烦，所以千万不要在iptabls里面把udp全给堵死了。<del>我的线上环境变成了瘟都死所以这个没有时间和环境测试，对运行过程中出现服务崩溃，服务器冒烟不负任何责任。</del>发现有问题的话给我个提交？诶哟好累英语太拙计就写中文好了。
+
 Install
 -------
 install MySQL 5.x.x
@@ -85,6 +89,9 @@ Add:
 
 	*                soft    nofile          8192
 	*                hard    nofile          65535
+
+
+add `ulimit -n 8192` in your startup script before runing
 
 shadowsocks
 ===========
