@@ -103,7 +103,7 @@ class ServerPool(object):
                     logging.info("starting server at %s:%d" % (a_config['server'], port))
                     tcp_server = tcprelay.TCPRelay(a_config, self.dns_resolver, False)
                     tcp_server.add_to_loop(self.loop)
-                    self.tcp_servers_pool.update({port: tcp_server})
+                    self.tcp_servers_pool[port] = tcp_server
                     #udp_server = udprelay.UDPRelay(a_config, self.dns_resolver, False)
                     #udp_server.add_to_loop(self.loop)
                     #self.udp_servers_pool.update({port: udp_server})
@@ -139,6 +139,7 @@ class ServerPool(object):
 
     def get_servers_transfer(self):
         ret = {}
+        #this is different thread but safe
         servers = self.tcp_servers_pool.copy()
         for port in servers.keys():
             ret[port] = [servers[port].server_transfer_ul, servers[port].server_transfer_dl]
