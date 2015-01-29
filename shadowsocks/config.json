@@ -6,7 +6,5 @@
     "local_port":1080,
     "password":"m",
     "timeout":300,
-    "method":"aes-256-cfb",
-    "fast_open": false,
-    "workers": 1
+    "method":"rc4-md5"
 }
