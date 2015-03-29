@@ -47,9 +47,9 @@ class ServerPool(object):
         self.dns_resolver = asyncdns.DNSResolver()
         self.mgr = asyncmgr.ServerMgr()
         self.tcp_servers_pool = {}
-        self.tcp_ipv6_servers_pool = {}
+        #self.tcp_ipv6_servers_pool = {}
         self.udp_servers_pool = {}
-        self.udp_ipv6_servers_pool = {}
+        #self.udp_ipv6_servers_pool = {}
 
         self.loop = eventloop.EventLoop()
         thread.start_new_thread(ServerPool._loop, (self.loop, self.dns_resolver, self.mgr))
